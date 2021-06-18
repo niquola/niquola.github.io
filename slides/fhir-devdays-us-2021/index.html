@@ -1,0 +1,466 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>Isomer mappings</title>
+
+		<meta name="description" content="Slides for FHIR DevDays 2019; Redmond">
+		<meta name="author" content="Nikolai Ryzhikov">
+
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<link rel="stylesheet" href="../../old/css/reveal.css">
+		<link rel="stylesheet" href="../../old/css/theme/white.css" id="theme">
+
+		<!-- Theme used for syntax highlighting of code -->
+		<link rel="stylesheet" href="../../old/lib/css/zenburn.css">
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+    <style>
+     h1, h2, h3 { color: #ea4a35!important; }
+     .reveal section img { background: white; border: none; box-shadow: none; }
+     hr {
+      border-color: #e94a35;
+      background-color: #e94a35;
+      height: 0px
+     }
+     #logo {
+       position: absolute;
+       top: 20px;
+       right: 60px;
+       height: 50px;
+       z-index: 1000;
+     }
+     #dd {
+       position: absolute;
+       top: 20px;
+       width: 300px;
+       left: 40px;
+       z-index: 1000;
+     }
+
+.reveal .controls .navigate-left, .reveal .controls .navigate-left.enabled
+{
+    border-right-color: #e94a35;
+}
+.reveal .controls .navigate-right, .reveal .controls .navigate-right.enabled
+
+{
+    border-left-color: #e94a35;
+}
+      </style>
+
+		<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+      <a href="https://bit.ly/3zgb3e8"> <img id="logo" src="health-samurai.png"></img> </a>
+  <img id="dd" src="devdays.jpg"> </div>
+
+		<div class="reveal">
+			<div class="slides">
+
+<section data-markdown><script type="text/template" >
+
+## Mappings:
+### HL7v2, Jute, bxb, Isomer
+
+---
+
+Nikolai Ryzhikov CTO (AD) @ Health Samurai
+
+[@niquola](https://bit.ly/3gqyQjg) (tw, gm, gh, tg)
+
+
+</script></section>
+
+<section>
+<a href="https://bit.ly/3zgb3e8"> 
+<img style="height: 100px;" src="health-samurai.png"/>
+</a>
+
+<hr/>
+
+<p style="color: #555; font-family: 'Gotham Pro',Arial,sans-serif; font-size: 44px; margin: 60px 0;">
+Craft FHIR-first apps!
+</p>
+
+<style>
+ .prods img {
+    display: inline-blocks;
+ }
+</style>
+<div class="prods">
+  <a href="https://bit.ly/355L2k5"><img style="height: 33px; margin-right: 60px" src="aidbox.svg"/></a>
+  <a href="https://bit.ly/3zmMgFF"><img src="fb.svg"/></a>
+</div>
+
+</script></section>
+
+
+
+<section data-markdown><script type="text/template" >
+### [FHIR® meetup: #Profiling](https://bit.ly/3csDKLj)
+
+---
+
+> Deep dive into FHIR in the wild!
+
+
+* Rick Geimer, Lantana Consulting Group
+* Mark Kramer, MITRE’s Health Innovation Center
+* Nikolai Ryzhikov, Health Samurai
+  
+
+[Join us on Thu, Jul 8 · 12pm PDT](https://bit.ly/3csDKLj)
+
+
+</script></section>
+
+<section data-markdown><script type="text/template" >
+
+### Real-World Interop
+
+---
+
+![interop](interop.png)
+
+> map it back and forth!
+</script></section>
+
+<section data-markdown><script type="text/template" >
+### Approach by
+
+---
+
+* use js, lua, java
+* invent a DSL
+
+</script></section>
+
+<section data-markdown><script type="text/template" >
+
+### Agenda
+
+---
+
+* HL7v2 parser
+* Jute templating
+* bxb lang
+* isomer lang
+
+> with demos
+
+</script></section>
+
+
+<section data-markdown><script type="text/template" >
+##  HL7 Parser
+
+---
+
+* Give it names
+* Bottom-Up vs Top-Down Parser
+* Unify messages schema
+* Align naming & structure with FHIR
+
+</script></section>
+
+<section data-markdown><script type="text/template" >
+###  HL7 Parser: give it names
+
+
+```yaml
+ORU_R01:
+  MSH:
+    0: "MSH",
+    1: "|",
+    2: "^~u0026",
+    3: {1: "My EHR"},
+    4: {1: "My Test Facility"}
+
+```
+> does not work properly
+
+</script></section>
+
+<section data-markdown><script type="text/template" >
+###  HL7 Parser: give it names
+
+```yaml
+id: '103102'
+sender:{app: MESA_ADT, facility: XYZ_ADMITTING}
+version:{ id: '2.4'}
+type: {code: ORU, event: R01}
+```
+> Much better!
+
+</script></section>
+
+<section data-markdown><script type="text/template" >
+###  HL7 Parser: give it names
+
+![parser](parser.jpg)
+
+> Redox HL7v2 -> FHIR Naming (by Samurai)
+
+</script></section>
+
+<section data-markdown><script type="text/template" >
+###  HL7 Parser: Align with FHIR
+
+![parser](v2fhir.jpg)
+
+> FHIR birth secret! [@GrahameGrieve](https://twitter.com/GrahameGrieve)
+</script></section>
+
+<section data-markdown><script type="text/template" >
+###  HL7 Parser: Bottom-Up
+
+![btmu](hl7btmu.png)
+
+>  IN1|IN2|GT1|IN1|IN2|GT1
+
+</script></section>
+
+<section data-markdown><script type="text/template" >
+###  HL7 Parser: Demo
+
+>  same parse for all messages <br/> (ADT, ORU, ORM, DFT)
+
+[demo](http://localhost:8089/static/index.html/#/demo/hl7parser)
+
+</script></section>
+
+
+<section data-markdown><script type="text/template" >
+## Jute
+
+----
+
+Unidirectional data templating.
+
+* SDC
+* HL7v2 mapping
+* Custom integrations
+
+[read more](https://bit.ly/3zgndUD)
+
+</script></section>
+
+
+<section data-markdown><script type="text/template" >
+###  Jute
+
+![btmu](jute.jpg)
+
+[read more](https://bit.ly/3zgndUD)
+</script></section>
+
+<section data-markdown><script type="text/template" >
+###  JSON -> EDN
+
+![edn](edn.jpg)
+
+</script></section>
+
+<section data-markdown><script type="text/template" >
+###  Jute
+
+----
+
+[demo](http://localhost:8089/static/index.html/#/demo/jute)
+
+[read more](https://bit.ly/3zgndUD)
+
+</script></section>
+
+<section data-markdown><script type="text/template" >
+##  bxb
+----
+
+Bi-directional transformation.
+Based on idea of lenses.
+
+* FHIR -> UI -> FHIR
+* FHIR -> BI -> FHIR
+
+[read more](https://bit.ly/3v729wq)
+</script></section>
+
+<section data-markdown><script type="text/template" >
+##  bxb - lenses
+----
+
+![boomerang](boom.jpg)
+
+</script></section>
+
+<section data-markdown><script type="text/template" >
+##  bxb: DSL
+----
+
+```
+path -> path
+path -> path
+```
+
+
+```
+get(prog, src)
+put(prog, dest, src)
+```
+
+[read more](https://bit.ly/3v729wq)
+</script></section>
+
+<section data-markdown><script type="text/template" >
+##  bxb: example
+----
+
+![bxb](bxb.jpg)
+
+[read more](https://bit.ly/3v729wq)
+</script></section>
+
+<section data-markdown><script type="text/template" >
+##  bxb: demo
+----
+
+[demo](http://localhost:8089/static/index.html/#/demo/bxb)
+
+[read more](https://bit.ly/3v729wq)
+</script></section>
+
+<section data-markdown><script type="text/template" >
+##  Isomer
+
+Safe bidirectional mapping language
+
+for schema and data.
+
+![isomer](isomer.png)
+
+[read more](https://bit.ly/35h1Sg5)
+
+</script></section>
+
+
+<section data-markdown><script type="text/template" >
+###  Isomer: Operations
+
+![isomer](isomer-ops.png)
+
+[read more](https://bit.ly/35h1Sg5)
+
+</script></section>
+
+<section data-markdown><script type="text/template" >
+###  Isomer: Guarantees
+---
+
+* One transform for back and forth
+* One transform for schema and data
+* Reversible changes
+* Verification & checks
+* No information loss
+* Debug step by step
+
+[read more](https://bit.ly/35h1Sg5)
+
+</script></section>
+
+
+<section data-markdown><script type="text/template" >
+##  Isomer: exec model
+---
+
+![isomer](isomer-model.png)
+
+[read more](https://bit.ly/35h1Sg5)
+
+</script></section>
+
+<section data-markdown><script type="text/template" >
+##  Isomer: FHIR versions
+---
+
+![isomer](iso-fhir.jpg)
+
+[read more](https://bit.ly/35h1Sg5)
+
+</script></section>
+
+<section data-markdown><script type="text/template" >
+##  Isomer: Demo
+
+---
+[read more](https://bit.ly/35h1Sg5)
+
+</script></section>
+
+<section data-markdown><script type="text/template" >
+### Presentation
+
+https://niquola.github.io/devdays-us-2021-slides
+
+</script></section>
+
+<section data-markdown><script type="text/template">
+### Thank you!
+
+# QA?
+
+---
+
+* Nicola (RIO) in zulip
+* @niquola on github & twitter
+* niquola@health-samurai.io
+
+
+</script></section>
+
+
+
+<script src="../../old/lib/js/head.min.js"></script>
+<script src="../../old/js/reveal.js"></script>
+
+		<script>
+			// More info https://github.com/hakimel/reveal.js#configuration
+			var deck = Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+
+				transition: 'convex', // none/fade/slide/convex/concave/zoom
+
+				// More info https://github.com/hakimel/reveal.js#dependencies
+				dependencies: [
+					{ src: '../../old/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: '../../old/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: '../../old/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: '../../old/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: '../../old/plugin/zoom-js/zoom.js', async: true },
+					{ src: '../../old/plugin/notes/notes.js', async: true }
+				]
+			});
+
+		</script>
+
+	</body>
+</html>
