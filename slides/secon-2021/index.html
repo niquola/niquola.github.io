@@ -60,219 +60,287 @@
 #### Приложения движимые
 ### моделями
 
+<br/>
+
 <small> Николай Рыжиков CTO @ Health Samurai <br/> Секон Пенза Июнь 2021</small>
 
 ---
 
 
-#### CRUD
+#### Naive code
 
 ```js
 create_user(db, attrs){
-  validate_user(attrs)
-  exec("insert into user (colls..) value {{attrs}}")
-  notify_user_created(attrs)
+  validate_user(attrs);
+  exec("insert into user (colls..) value ?", attrs);
+  notify_user_created(attrs);
 }
 ```
-Generalize!
-But we need also tables, docs, separated validation, js sdk...
+
++ tables, docs, sdks, validation
 
 ---
 
-#### 2. Model (Metadata)
+#### Generalize
 
-* annotations
-* code analyzis
-* put it as a data
 
+```js
+create(model, attrs) {
+  validate(model, attrs)
+  exec("insert into {{model.table}} \
+         ({{model.cols}}) value {{attrs}}")
+  notify(model, attrs)
+}
+
+```
 
 ---
 
-user.yaml
+#### Configuration
+
+```yaml
+ entity: User
+ table: users
+ subs: {on-created: [some-triggers]}
+ attrs:
+   name: {type: string, required: true}
+   password: {type: string, required: true, minLen: 8} 
+```
+
+---
+
+#### Generic functions
+
+```js
+create(model, attrs)
+generate_docs(model)
+generate_database(model)
+generate_sdk(model)
+````
+
+---
+
+#### One source of true
+
+![](one-src-true.png)
+
+> D(ont)R(epeat)Y(ourself)
+
+---
+
+## Model!
+
+----
+
+### DSL
+
+---
+
+#### Where model should live?
+
+* Code First (reflection)
+  * Annotations
+  * Attributes
+* DSL (runtime)
+* Database (Active Record)
+* <span style="color:green">**Just Data**!</span>
+
+---
+
+#### Metadata 
+
 ```yaml
 entity: User
 table: users
+subs:
+  on-created:
+     notify: some-trigger
 attrs:
   name: {type: string, required: true}
   password: ...
 ```
 
+---
+
+#### Data Formats
+
+* xml
+* yaml
+* json
+* <span style="color:green">**edn**!</span>
 
 ---
 
-code:
+#### Many interpretations
+
+![](metadata.png)
+
+---
+
+#### edn intro
+
+```json
+{"entity": "User",
+ "attrs": {"name" {"type" "string"},
+           "password": {"type" "string"}}}
 ```
-create(cfg, attrs)
-  validate(cfg, attrs)
-  exec("insert into {{cfg.table}} ({{cfg.cols}}) value {{attrs}}")
-  notify(cfg, attrs)
 
-validate(cfg, attrs)
-generate_docs(cfg)
-generate_database(cfg)
-generate_sdk(cfg)
-```
-
-
----
-
-#### 3. Data Formats
-
-* xml - should die
-* yaml* - readable, crazy parser
-* json* - well known, too limited, boilerplate
-* edn! -  less known, nice balance between yaml and json 
-
-edn = json - syntax noise, + data types, tags  and comments
-
-Additional types:
-* symbol - just.some/name
-* keyword - :keyword, or :my-ns/keyword
-* set #{1 4 5}
-
-Tags:
-* #inst "1985-04-12T23:20:50.52Z"
-* #uuid "f81d4fae-7dec-11d0-a765-00a0c91e6bf6"
-
-
----
-
-
-example.edn
-```edn
+```clj
 {:entity User ;; symbol
  :attrs {:name {:type "string"}
          :password {:type "string"}}}
 
-```
-
-
----
-
-#### 4. Names and References
-
-User(address:Address)-*Roles
-
-```edn
-{:entity User
- :attrs {:roles   {:ref Role}
-         :address {:type Address}}}
+;; namespaced
+:user/name
+myapp.xyz/User
 ```
 
 
 
 ---
 
-#### 5. Let's add an operation model
+#### Data DSLs
+----
 
-operations.edn
-```edn
-{:type rest/operation
- :path "/User"
- :method "POST""
- :body {:schema User}} <- here we want to compose two models
-```
-
-Can we have a one place to put all models?!
-Let's organize it as a code:
-
-```
-models/
-  user.edn
-  routes.edn
-
-```
-
+* validation
+* routing
+* queries
+* access control
+* ....
 
 ---
 
+#### routing
 
-#### 6. Re-use models?
+```clj
+{:GET {:handler welcome}
+ "users" {:GET {:handler users/search}
+          :POST {:handler users/create}
+          [:id] {:GET {:handler users/find}}}
+ ...}
 
-Use global names. Introduce packages or namespaces.
+```
+
+---
+
+#### Queries
+
+```clj
+{:select :*
+ :from {:u :users}
+ :where {:by-id [:= :u.id id]}
+ :group-by {...}}
+
+```
+
+---
+
+#### Transformations
+
+```clj
+[
+  [:name 0 :given 0] [:first_name]
+  [:identifier {:system "ssn"} :value] [:ssn]
+  ...
+]
+
+```
+
+---
+
+#### Compose DSLs!
+
+```clj
+{"report"
+  {"my-report"
+    {:GET {:allow {:role #{admin}}
+           :sql {:select [:count*] :from :users}}}}}
+
+```
+
+---
+
+#### Configuration on steroids
+
+
+![](model-driven.png)
+
+> Separate model from interpreters
+
+---
+
+#### Model Project
+
+```text
+myapp/
+  iam.edn
+  patients.edn
+  reports.edn
+libs/
+  some-dsl.edn
+```
+
+---
+
+#### Model Store
+
+![](model-store.png)
+
+---
+
+#### Global Names and References
 
 
 ```clj
 
-{ns myapp.user
- import #{entity server}
+{namespace myapp.iam
+ User {:attrs {:roles {:entity Role}
+       :address {:entity Address}}}}
 
- User {
-   :type entity/entity 
-   :attrs {...}}
- 
- create-user {
-   :type server/operation
-   :body {:schema myapp.user/User}
-   :response {...}}}
+
+{namespace myapp.rpc
+ create-user {:type rpc
+              :params myapp.iam/User ;; ref
+              :result myapp.iam/User}}
+
+(model/load 'myapp.iam/User)
+
 ```
-
 
 ---
 
-#### 8. Organize models into project
+#### Classification
 
-```
-src/
- myapp/
-   server.edn
-   models.edn
-libs/
-  server.edn
-```
-  
-Use "search paths" approach to load and re-use model libraries!  
-
-
----
-
-#### 9. Classification & Tags
-
-Ok we put all entities into data, now we want to
-generate all tables. I.e. get all entities.
-Let's label all models with "tags" and implement search by tag
-
-```edn
+```clj
 {ns myapp.user
  import #{entity server}
 
  User {
    :zen/tags #{entity/Entity}
-   :attrs {...}
- }
+   :attrs {...}}
  
  Role {
    :zen/tags #{entity/Entity}
-   :attrs {...}
- }
+   :attrs {...}}}
 
-}
+get-model('myapp.user/User)
+get-by-tag('entity/Entity)
 
 ```
 
-get-symbol('myapp.user/User)
-get-by-tag('entity/Entity) => [...]
+---
 
+#### Schema DSLs
 
+* json-schema
+* graphql
+* protobuf
+* CUE
 
 ---
 
+#### ZEN SCHEMA
 
-#### Add schema to validate models?
-
-Data DSL to describe shape of data as a data.
-
-* json-schema (akward global names & refs, keywords semantic, closed world)
-* graphql (custom specialized syntax)
-* protobuf (too limited)
-* DHall
-* CUE (custom syntax)
-
-            ===ZEN SCHEMA===
-
-:type => enable keywords, each keyword is a rule!
-
----
 
 ```clj
 User
@@ -287,7 +355,9 @@ User
 
 ```
 
-#### :confirms #{} (Open World assumption)
+---
+
+#### OWA (Open World Assumption)
 
 ```clj
 Resource {
@@ -298,39 +368,28 @@ Resource {
 
 User {
  :zen/tags #{zen/schema}
- :confirms #{Resource} <<-
+ :confirms #{Resource}
  :type zen/map
  :keys {:name  {:type zen/string}
         :birthDate {:type zen/datetime}}}
 
 ```
-Each schema is stand-alone.
-Confirm this schema and other schemas from confirms±! 
-About unknown keys in a map - all schemas are collaborate.
-Schema validates only keys - it knows!
-If key was not recognized by any schema -> error.
 
+> Cooperative validation
 
 ---
 
-#### Schema & Tags (Composition)
+#### Tags for Schema (mixins; components)
 
-If schema attached to tag, entity with tag validated against this schema
-
-```edn
-;; db.edn
+```clj
 persistent {
  :zen/tags #{zen/tag zen/schema}
- :keys {:db/table {:type zen/string}}
-}
+ :keys {:db/table {:type zen/string}}}
 
-;; zdoc.edn
 entity {
  :zen/tags #{zen/tag zen/schema}
- :keys {:zdoc/comments {:type zen/string}}
-}
+ :keys {:zdoc/comments {:type zen/string}}}
 
-;; myapp.edn
 User {
  :zen/tags #{zen/schema db/persistent zdoc/entity}
  :type zen/map
@@ -341,18 +400,24 @@ User {
 
 ```
 
+---
 
+#### Tooling
+----
+
+* schema to define dsls
+* LSP - autocomplete & validation by schema
+* introspection
+* live docs
 
 ---
 
-#### Zen system
+#### System = models + interpreters
 
-[Codebase]  <=>   [Model]
+----
 
-* generalize
-* move logic from code to model space
+show me the code
 
-System = models + interpreters
 
 
 </script></section>
