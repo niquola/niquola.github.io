@@ -1,0 +1,141 @@
+{ns fhir.us-core
+ import #{fhir}
+
+ race
+ {:zen/tags #{zen/schema fhir/extension}
+  :type zen/map
+  :keys {:text {:type zen/string}
+         :ombCategory {}
+         :detailed {} }}
+
+ Patient
+ {:zen/tags #{zen/schema}
+  :confirms #{fhir/Patient}
+  :type zen/map
+  :require #{:gender}
+  :keys {:us-core/race {:confirms #{race}}
+         :identifier {:type zen/vector
+                      :minItems 1
+                      :every {:type zen/map
+                              :require #{:system :value}}}}}
+
+
+ bmi
+ {:zen/tags #{zen/schema}
+  :confirms #{fhir/Observation}
+  :type zen/map
+  :require #{:code :valueQuantity}
+  :keys
+  {:code
+   {:type zen/map
+    :keys {:coding {:type zen/vector
+                    :contains {:bmi {:code "59576-9" :system "http://loinc.org"}}}}}
+   ;; match
+   :valueQuantity
+   {:type zen/map
+    :require {:value :unit :system :code}
+    :match {:system "http://unitsofmeasure.org"
+            :code "kg/m2"}}}}
+
+body-temperature
+{:zen/tags #{zen/schema}
+ :confirms #{fhir/Observation}
+ :type zen/map
+ :require #{:code :valueQuantity}
+ :keys
+ {:code
+  {:type zen/map
+   :keys {:coding {:type zen/vector
+                   :contains {:bmi {:code "8310-5" :system "http://loinc.org"}}}}}
+  ;; match #{}
+  :valueQuantity
+  {:type zen/map
+   :require {:value :unit :system :code}
+   :match {:system "http://unitsofmeasure.org"
+           :code #{"Cel" "[degF]"}}}}}
+
+ diagnosticreport-lab-codes
+ {:zen/tags #{fhir/valueset}
+  :url "http://hl7.org/fhir/us/core/ValueSet/us-core-diagnosticreport-lab-codes"
+  :codes [{:code "1-8" :display "Acyclovir [Susceptibility]"}
+          ;; ...
+          ]}
+
+ diagnosticreport-lab
+ {:zen/tags #{zen/schema}
+  :confirms #{fhir/DiagnosticReport}
+  :type zen/map
+  ;; require
+  :require #{:status :code :subject #{:effectiveDateTime :effectivePeriod} :issued}
+  :keys
+  {:category
+   {:type zen/map
+    :keys {:coding {:type zen/vector
+                    :contains {:lab {:system "http://terminology.hl7.org/CodeSystem/v2-0074"
+                                     :code "LAB"}}}}}
+   :code
+   ;; vs effect
+   {fhir/bind {:valueset diagnosticreport-lab-codes}}}}
+
+ ;; slices
+
+ ;; filter/schema
+ {:entry {:type zen/vector
+          :slices {:pt {:minItems 1 :maxItems 1
+                        :match {:resourceType "Patient"}
+                        :every {:confirms #{fhir/Patient}}}
+                   :enc {:minItems 1 :maxItems 1
+                         :match {:resourceType "Encounter"}
+                         :every {:confirms #{fhir/Encounter}
+                                 :type zen/map
+                                 :require #{:subjet}}}}}}
+
+
+ ;; mixins
+
+ MyPerson
+ {:zen/tags #{zen/schema}
+  :type zen/map
+  :keys {:name {:confirms #{fhir/HumanName}}}}
+
+ Addressable
+ {:zen/tags #{zen/schema}
+  :type zen/map
+  :keys {:address {:type zen/vector {:every {:confirms #{fhir/Address}}}} }}
+
+ MyPatient
+ {:zen/tags #{zen/schema}
+  :confirms  #{MyPerson Addressable}}
+
+ ;; suhi
+ ConditionStatusTrendVS
+ {:zen/tags #{fhir/valueset}
+  :concepts []}
+
+ CancerDiseaseStatusEvidenceTypeVS
+ {:zen/tags #{fhir/valueset}
+  :concepts []}
+
+ evidence-type
+ {:zen/tags #{fhir/extension zen/schema}
+  :confirms #{fhir/CodeableConcept}}
+
+ CancerPatient
+ {:zen/tags #{zen/schema}
+  :confirms #{fhir/Patient}}
+
+ CancerDiseaseStatus
+ {:zen/tags #{zen/schema}
+  :confirms #{fhir/Observation}
+  :type zen/map
+  :match {:code {:coding #{{:code "88040-1" :system "http://loinc.org"}}}}
+  :excluded-keys {:bodySite :specimen :device :referenceRange :hasMember :component}
+  :require #{:code :valueCodeableConcept}
+  :keys {:evidenceType {:confirms {evidence-type}
+                        fhir/bind {:valueset CancerDiseaseStatusEvidenceTypeVS}}
+         :subject {fhir/ref-profile {:confirms #{CancerPatient}}}
+         :basedOn {:match {:resourceType #{"ServiceRequest" "MedicationRequest"}}}
+         :partOf  {:match {:resourceType #{"MedicationAdministration" "MedicationStatement" "Procedure"}}}
+         :valueCodeableConcept {fhir/bind {:valueset ConditionStatusTrendVS}}}}
+
+}

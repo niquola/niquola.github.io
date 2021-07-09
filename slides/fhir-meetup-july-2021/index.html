@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>ZEN & FHIR</title>
+
+		<meta name="description" content="">
+		<meta name="author" content="Nikolai Ryzhikov">
+
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+		<link rel="stylesheet" href="../../dist/reset.css">
+		<link rel="stylesheet" href="../../dist/reveal.css">
+		<!-- <link rel="stylesheet" href="../../dist/theme/black.css" id="theme"> -->
+		<link rel="stylesheet" href="../../dist/theme/white.css" id="theme">
+		<!-- <link rel="stylesheet" href="../../dist/theme/solarized.css" id="theme"> -->
+		<!-- <link rel="stylesheet" href="../../dist/theme/moon.css" id="theme"> -->
+
+		<!-- Theme used for syntax highlighting of code -->
+		<link rel="stylesheet" href="../../plugin/highlight/monokai.css">
+    <style>
+     h1, h2, h3, h4 { color: #ea4a35!important; }
+     hr {
+      border-color: #eee!important;
+      border-bottom: none;
+      height: 0px
+      box-shadow: none;
+      outline: none;
+     }
+
+     a { color: #4d7099!important; }
+     #conflogo {
+       position: absolute;
+       left: 20px;
+       top: 0px;
+       width: 150px;
+     }
+     .reveal .code-wrapper code {
+        padding: 1rem;
+        border-radius: 0.3rem;
+     }
+    </style>
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+      <img id="conflogo" src="https://uploads-ssl.webflow.com/57441aa5da71fdf07a0a2e19/5a5530dbcf0636000108521f_new-hslogo.svg"/>
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+
+<section data-markdown><script type="text/template">
+
+### Zen-lang & FHIR
+
+<hr/>
+
+<small> 
+Nikolai Ryzhikov CTO & CF @ Health Samurai <br/>
+tw, gh, tg: @niquola </br><br/>
+FHIR meetup July 2021
+</small>
+
+---
+
+### Health Samurai
+
+<hr/>
+
+<a href="https://www.health-samurai.io/aidbox"> 
+<img src="https://uploads-ssl.webflow.com/57441aa5da71fdf07a0a2e19/602b2c21cb15ddc44931d527_aidbox-logo.svg"/>
+</a>
+
+<b>FHIR++</b> backend for <b>FHIR-first</b> systems
+
+
+---
+### Open Source
+
+<hr/>
+
+* fhirbase
+* jute
+* zen-lang
+* fhir.js
+* and more
+
+---
+
+#### Model DSLs
+
+<hr/>
+
+* FHIR SD
+* JSON schema & Open API
+* CUE
+* Dhall
+* GraphQL
+
+---
+
+#### zen-lang
+
+<hr/>
+
+Foundation for Model Driven Systems
+
+![](model-driven.png)
+
+
+---
+#### zen-lang
+
+<hr/>
+
+Foundation for Model Driven Systems
+
+![](one-src-true.png)
+
+---
+#### zen-lang & aidbox
+
+```clojure
+{ns mybox
+ import #{fhir fhir.us-core aidbox.graphql}
+ access-policies {...}
+ api 
+ {:GET {:op fhir/conformance :config {...}}
+  "Patient" {:GET {:op fhir/search 
+                  :params fhir.patient/search-params
+                  :access {}}}} ...
+ server
+ {:db {:pool 10} :api api}}
+```
+
+
+---
+
+### show me the code
+
+---
+
+### TBD
+
+* Publish FHIR->ZEN
+* Make ZEN->FHIR
+* ZEN/FHIR Tooling
+* Migrate aidbox to zen-lang
+---
+
+### TBD
+
+* Publish FHIR->ZEN
+* Make ZEN->FHIR
+* ZEN/FHIR Tooling
+* Migrate aidbox to zen-lang
+
+</script></section>
+
+
+			</div>
+
+		</div>
+
+		<script src="../../dist/reveal.js"></script>
+		<script src="../../plugin/zoom/zoom.js"></script>
+		<script src="../../plugin/notes/notes.js"></script>
+		<script src="../../plugin/search/search.js"></script>
+		<script src="../../plugin/markdown/markdown.js"></script>
+		<script src="../../plugin/highlight/highlight.js"></script>
+		<script>
+
+			// Also available as an ES module, see:
+			// https://revealjs.com/initialization/
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				center: true,
+				hash: true,
+
+				// Learn about plugins: https://revealjs.com/plugins/
+				plugins: [ RevealZoom, RevealNotes, RevealSearch, RevealMarkdown, RevealHighlight ]
+			});
+
+		</script>
+
+	</body>
+</html>
