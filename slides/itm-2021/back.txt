@@ -1,0 +1,77 @@
+### Lloyd McKenzie
+
+> CDA locks you into documents, and documents are not the ideal way to access
+  a whole lot of data.
+  If your question is "how has the patient's blood pressure trended over time"
+  or "what are a patient's allergies",
+  wading through a ton of documents is difficult for both humans and technology.
+
+* Documents just give you the paper problem in electronic form. It's the equivalent of a file folder that's a foot thick that lets you do some simple searches on top of - not efficient for a lot of things, so you end up with a bunch of data that isn't truly accessible
+* Documents are purpose-specific. REST is generic. So once you have a REST endpoint, it can be used for a wide variety of things. Also, migrating data between different forms is hard
+* CDA is based on v3, which suffers from a number of limitations
+  *  experts are few and far between (and declining in numbers)
+  *  the syntax is obtuse and non-intuitive for most implementers
+  *  there's no built in extensibility capability
+  *  there's often multiple ways to say the same thing, so interoperability is harder without pre-negotiation
+
+FHIR brings a lot of benefits
+* can use JSON rather than just XML
+* integrated support for sophisticated profiling and terminology services
+* open source implementations in a wide variety of technologies
+* a huge and responsive international support community
+
+CDA itself has said that their next major version is going to be based on FHIR
+and all of their content will be published using FHIR tooling.
+So your forward path is going to end up being FHIR
+even if you start with CDA - therefore why not embrace all of FHIR from the start?
+
+
+
+----
+
+Josh Mandel
+
+Personally: I have don't spend time on CDA.
+I guess I do see some role for "here's a self contained document with a full encounter history",
+but it hasn't been the thing I've needed
+
+----
+
+Grahame Grieve: that's still going? wow.
+Grahame Grieve: nothing really canned, unfortunately
+
+Grahame Grieve
+
+----
+
+## US
+
+### ONC
+
+* ~ 2010 CCDA
+* 2015 SMART on FHIR
+* 2018 Blue Button (FHIR)
+* 2020 Payers API
+* 2022 SMART on FHIR 2
+
+ONC initially proposed to adopt the HL7 FHIR standard as a foundational standard and
+requested comment on four options to determine the best version of FHIR to adopt.
+Finally, ONC adopted FHIR Release 4.
+
+
+----
+
+* Apple healthcare
+* Google Health API
+* Microsoft Health API
+* Amazon Health API 
+
+----
+
+
+
+
+
+
+
+----
