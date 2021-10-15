@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>FHIR Sync</title>
+
+		<meta name="description" content="">
+		<meta name="author" content="Nikolai Ryzhikov">
+
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+		<link rel="stylesheet" href="../../dist/reset.css">
+		<link rel="stylesheet" href="../../dist/reveal.css">
+		<!-- <link rel="stylesheet" href="../../dist/theme/black.css" id="theme"> -->
+		<link rel="stylesheet" href="../../dist/theme/white.css" id="theme">
+		<!-- <link rel="stylesheet" href="../../dist/theme/solarized.css" id="theme"> -->
+		<!-- <link rel="stylesheet" href="../../dist/theme/moon.css" id="theme"> -->
+
+		<!-- Theme used for syntax highlighting of code -->
+		<link rel="stylesheet" href="../../plugin/highlight/monokai.css">
+    <style>
+     h1, h2, h3, h4 { color: #ea4a35!important; }
+     hr {
+      border-color: #eee!important;
+      border-bottom: none;
+      height: 0px
+      box-shadow: none;
+      outline: none;
+     }
+
+     a { color: #4d7099!important; }
+     #conflogo {
+       position: absolute;
+       left: 20px;
+       top: 0px;
+       width: 150px;
+     }
+     #meetup {
+       position: absolute;
+       left: 20px;
+       bottom: 10px;
+       width: 150px;
+     }
+     .reveal .code-wrapper code {
+        padding: 1rem;
+        border-radius: 0.3rem;
+     }
+    </style>
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+      <img id="conflogo" src="hs.png"/>
+      <img id="meetup" src="meetup.jpg"/>
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+
+<section data-markdown><script type="text/template">
+
+### FHIR Server 2 Server
+### Interactions
+
+<small> Nikolai Ryzhikov CTO @ Health Samurai <br/> FHIR Meetup Oct 2021</small>
+
+
+---
+### FHIR CRUD REST API
+
+![](client-server.png)
+
+---
+### FHIR Data Sync 
+
+![](data-replication.png)
+
+---
+
+### 2 steps
+
+![](2-steps.png)
+
+---
+
+### Integration Patterns
+------
+
+
+* Push
+* Pull
+* Hybrid
+
+---
+
+#### Push Pattern
+----
+
+![](push.png)
+
+---
+
+#### Pull Pattern
+----
+
+![](pull.png)
+
+---
+
+#### Hybrid Pattern
+----
+
+![](hybrid.png)
+
+
+---
+
+### FHIR
+-----
+
+1. Bulk Export
+2. Subscriptions
+
+---
+
+#### Problems:
+-----
+
+* Subscription starts where bulk export ends
+* How to guarantee delivery and order?
+
+---
+
+#### Tradeoffs
+----
+
+* throughput vs latency
+* efficiency vs consistency
+
+
+---
+
+#### How databases do it?
+----
+
+![](dbs.png)
+
+---
+
+#### Pub/Sub
+----
+
+![](pubsub.png)
+
+---
+#### FHIR Pub/Sub
+
+----
+* Do not repeat low level protocols (Kafka, Rabit, Cloud Pub/Subs)
+* Specify payload, topics and semantic
+
+---
+
+#### Discussion
+
+---
+
+</script></section>
+
+
+			</div>
+
+		</div>
+
+		<script src="../../dist/reveal.js"></script>
+		<script src="../../plugin/zoom/zoom.js"></script>
+		<script src="../../plugin/notes/notes.js"></script>
+		<script src="../../plugin/search/search.js"></script>
+		<script src="../../plugin/markdown/markdown.js"></script>
+		<script src="../../plugin/highlight/highlight.js"></script>
+		<script>
+
+			// Also available as an ES module, see:
+			// https://revealjs.com/initialization/
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				center: true,
+				hash: true,
+
+				// Learn about plugins: https://revealjs.com/plugins/
+				plugins: [ RevealZoom, RevealNotes, RevealSearch, RevealMarkdown, RevealHighlight ]
+			});
+
+		</script>
+
+	</body>
+</html>
