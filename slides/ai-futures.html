@@ -7,20 +7,15 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/reset.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/reveal.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/theme/black.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5/plugin/highlight/monokai.css">
   <style>
     :root { --r-heading-color: #e7ad52; --r-link-color: #e7ad52; }
     .reveal h1, .reveal h2, .reveal h3 { text-transform: none; }
-    .reveal blockquote {
-      border-left: 4px solid #e7ad52; padding: 0.5em 1em;
-      font-style: italic; background: rgba(255,255,255,0.05); width: 90%;
-    }
-    .reveal table { margin: 0 auto; font-size: 0.8em; }
-    .reveal table td, .reveal table th { padding: 0.3em 0.8em; }
     .reveal section { text-align: left; }
     .reveal h1, .reveal h2, .reveal h3 { text-align: center; }
     .reveal ul, .reveal ol { margin-left: 0.5em; }
     .reveal li { margin-bottom: 0.4em; }
+    .reveal table { margin: 0 auto; font-size: 0.8em; }
+    .reveal table td, .reveal table th { padding: 0.3em 0.8em; }
   </style>
 </head>
 <body>
@@ -30,8 +25,6 @@
 <!-- .slide: data-background-color="#000" -->
 
 # Will your company exist in 5 years?
-
-Note: Pause. Let the silence work. Look around the room.
 
 ----
 
@@ -43,8 +36,6 @@ Note: Pause. Let the silence work. Look around the room.
 
 [Nikolai Ryzhikov](https://www.linkedin.com/in/nikolai-ryzhikov-586a6913/) · CTO, Health Samurai
 
-Note: "To answer this, let me tell you a story about an industry that already faced exactly this question."
-
 ----
 
 <!-- .slide: data-background-color="#1a1a2e" -->
@@ -53,66 +44,37 @@ Note: "To answer this, let me tell you a story about an industry that already fa
 
 I see parallels in the history of IT and Electronics
 
-In the 1920s-1960s, Electronics was a distributed cottage industry with tens of thousands of small and mid-sized businesses.
-
-Then, the integrated circuit was invented in 1958. <!-- .element: class="fragment" -->
-
-This made the production of electronics much more efficient and cheaper. <!-- .element: class="fragment" -->
-
-As a result, the middle market of electronics **collapsed**. <!-- .element: class="fragment" -->
-
 ----
 
-## The Golden Age: 1920s-1960s
+## 1920s-1960s: The Golden Age
 
-- **~150** TV manufacturers in the US alone (early 1950s) <!-- .element: class="fragment" -->
-- **~20,000** electronics repair shops <!-- .element: class="fragment" -->
-- **~1,500** component distributors <!-- .element: class="fragment" -->
-- **1.9M** workers in electronics manufacturing <!-- .element: class="fragment" -->
-- **24,000** EE graduates/year at peak (1985) <!-- .element: class="fragment" -->
-
-Note: Every town had radio repair, local electronics manufacturers. 170 postwar TV manufacturers documented by name.
+- **~150** TV manufacturers in the US
+- **~20,000** electronics repair shops
+- **~1,500** component distributors
+- **1.9M** workers in electronics manufacturing
 
 ----
 
 <!-- .slide: data-background-color="#2d1117" -->
 
-## After the Integrated Circuit
+## After the Integrated Circuit (1958)
 
-- Jobs lost: **1.9M → 1.0M** (-47%) <!-- .element: class="fragment" -->
-- US global fab share: **42%** (1980) → **12%** (2020) <!-- .element: class="fragment" -->
-- Fab cost: **$4M** (1970) → **$20B** (2020s) — a **5,000x** increase <!-- .element: class="fragment" -->
-- US TV manufacturers: **150 → 0** <!-- .element: class="fragment" -->
-- US DRAM producers: **14** (1970) → **3** (1986) <!-- .element: class="fragment" -->
-- Intel DRAM share: **83%** (1974) → **1.3%** (1984) <!-- .element: class="fragment" -->
-
-Note: By 1988, Zenith was the sole surviving US TV manufacturer. Then it died too.
+- Jobs: **1.9M → 1.0M** (-47%)
+- Fab cost: **$4M** (1970) → **$20B** (2020s) — **5,000x**
+- US TV manufacturers: **150 → 0**
+- US DRAM producers: **14 → 3**
+- Intel DRAM share: **83% → 1.3%**
+- US global fab share: **42% → 12%**
 
 ----
 
 ## What Survived?
 
-Niches too small or too demanding for mass production:
+- Medical devices, aerospace, defense
+- Fabless design (Qualcomm, Nvidia, AMD)
+- Contract manufacturers for custom runs
 
-- Medical devices, aerospace, defense <!-- .element: class="fragment" -->
-- Fabless design companies (Qualcomm, Nvidia, AMD) <!-- .element: class="fragment" -->
-- Contract manufacturers for custom small runs <!-- .element: class="fragment" -->
-
-A tiny fraction of what existed before. <!-- .element: class="fragment" -->
-
-----
-
-## What Happened to the Jobs?
-
-No need in routine work! Still need R&D, but not in the same quantity.
-
-The survivors spend **21-28% of revenue on R&D** <!-- .element: class="fragment" -->
-
-(Intel: 28%, industry avg: 21.5% — highest of any industry except pharma) <!-- .element: class="fragment" -->
-
-**34-35%** of semiconductor workforce is in R&D today <!-- .element: class="fragment" -->
-
-Note: The routine work disappeared. Surviving companies need a far higher density of genuinely innovative engineers.
+Survivors spend **21-28% of revenue on R&D**
 
 ----
 
@@ -122,111 +84,87 @@ Note: The routine work disappeared. Surviving companies need a far higher densit
 
 ----
 
-## How Many IT Jobs Are There Now?
+## IT Today
 
-## ~50-60M <!-- .element: class="fragment" -->
-
-software developers worldwide (SlashData, 2025) <!-- .element: class="fragment" -->
-
-**$1.6 Trillion** global IT services market <!-- .element: class="fragment" -->
-
-**15,000+** firms doing platform customization globally <!-- .element: class="fragment" -->
+- **~50-60M** software developers worldwide
+- **$1.6T** global IT services market
+- **15K+** platform customization firms
+- **~32%** of IT services is config & customization
 
 ----
 
-## How Much of These Jobs Are Routine?
+## How Much Is Routine?
 
-- **80-90%** right now <!-- .element: class="fragment" -->
-- McKinsey: **57%** of US work hours already automatable <!-- .element: class="fragment" -->
-- **10-20%** is genuinely creative work <!-- .element: class="fragment" -->
+- **80-90%** of IT work is routine
+- **57%** of US work hours automatable (McKinsey)
+- **10-20%** is genuinely creative
 
-The rest is pattern-matching. And that's exactly what LLMs do. <!-- .element: class="fragment" -->
-
-----
-
-## What Is a Software Factory?
-
-We already saw **platforms wave one**: clouds, CRM, ERP, ecom, etc.
-
-**~32%** of IT services is just configuration and customization of platforms. <!-- .element: class="fragment" -->
-
-AI already automates this work: <!-- .element: class="fragment" -->
-- Salesforce Agentforce: **-40%** cost <!-- .element: class="fragment" -->
-- SAP Joule: **-50%** design iterations <!-- .element: class="fragment" -->
-- Gartner: **75%** of new apps will be low-code by 2026 <!-- .element: class="fragment" -->
-
-Formula: **Platform + AI = no middle market** <!-- .element: class="fragment" -->
-
-Note: 84% of enterprises already adopted low-code. The platforms are eating their own partners.
+The rest is pattern-matching. That's what LLMs do.
 
 ----
 
-## The Outsourcing Parallel
+## Platform + AI = No Middle Market
 
-Selling **routine intelligence by the hour**:
+AI already automates configuration:
 
-- India: **5.8M** IT workers, **$283B** revenue <!-- .element: class="fragment" -->
-- Ukraine: **300K+** IT specialists <!-- .element: class="fragment" -->
-- Upwork: **18M** freelancers <!-- .element: class="fragment" -->
+- Salesforce Agentforce: **-40%** cost
+- SAP Joule: **-50%** design iterations
+- Gartner: **75%** of new apps low-code by 2026
 
-cheap hands → cheap components → **cheap AI** <!-- .element: class="fragment" -->
+----
 
-Note: Fiverr cut 30% of staff to become "AI-first". The signal is clear.
+## Outsourcing Is Next
+
+- India: **5.8M** IT workers, **$283B** revenue
+- Ukraine: **300K+** IT specialists
+- Upwork: **18M** freelancers
+
+cheap hands → cheap components → **cheap AI**
 
 ----
 
 <!-- .slide: data-background-color="#2d1117" -->
 
-## The Disruption Is Already Here
+## Already Happening
 
 | | |
 |---|---|
-| **-67%** Entry-level dev jobs since 2022 | **245K** Tech layoffs in 2025 |
-| **57%** US work hours automatable | **44%** hiring managers expect AI layoffs |
+| **-67%** junior dev jobs since 2022 | **245K** tech layoffs in 2025 |
+| **57%** work hours automatable | **44%** managers expect AI layoffs |
 
-Fiverr cut 30% of staff. Oracle cut 30,000. <!-- .element: class="fragment" -->
-
-Note: Companies that hired 5 juniors now hire 2 mid-level engineers with AI tools for same output.
+Fiverr cut 30%. Oracle cut 30,000.
 
 ----
 
-## What Can We Learn from Electronics?
+## Barrier Is Rising
 
-Production of something like TV was monopolized by a few companies.
+| Electronics | AI |
+|---|---|
+| Fab: **$100M+** | Frontier model: **$1B+** |
 
-The same will happen with **routine software**: CRM, ERP, ecom, HR. <!-- .element: class="fragment" -->
-
-The barrier is rising: training a frontier model costs **$1B+** <!-- .element: class="fragment" -->
-
-Your 50-person Salesforce shop cannot build this infrastructure. <!-- .element: class="fragment" -->
+Your 50-person shop cannot build this.
 
 ----
 
-## Will All Current Platforms Survive?
+## Will Current Platforms Survive?
 
 History of IBM: **probably not**.
 
-There is a quick opportunity to build a **new platform for the post-AI era**. <!-- .element: class="fragment" -->
+Salesforce, SAP, Oracle — built for expensive customization.
 
-Salesforce, SAP, Oracle — built for a world where customization was expensive. <!-- .element: class="fragment" -->
-
-AI-native apps could deliver the same, cheaper and deeper. <!-- .element: class="fragment" -->
+AI-native apps deliver the same, cheaper.
 
 ----
 
 ## Local LLMs vs Commercial Models
 
-OpenAI, Anthropic took crazy bets on their models. They think they will be the only ones to provide intelligence and the power will scale.
+What if intelligence reaches a **plateau**?
 
-But what if it doesn't? <!-- .element: class="fragment" -->
+DeepSeek matched frontier at a fraction of cost.
 
-What if it reaches a logical **plateau**? <!-- .element: class="fragment" -->
+Open models on your phone.
 
-DeepSeek matched frontier performance at a fraction of cost. <!-- .element: class="fragment" -->
-
-Open weights models running locally — on your phone. <!-- .element: class="fragment" -->
-
-The PC defeating the mainframe: not by matching power, but by being **cheap enough**. <!-- .element: class="fragment" -->
+PC defeating the mainframe: not by power, but by being **cheap enough**.
 
 ----
 
@@ -234,35 +172,32 @@ The PC defeating the mainframe: not by matching power, but by being **cheap enou
 
 # The Bright Side
 
-When electronics collapsed, **computers and programming were born** — creating entirely new industries.
+When electronics collapsed, **computers were born**.
 
-What is the computers/programming equivalent after AI disruption? <!-- .element: class="fragment" -->
+What's the equivalent after AI disruption?
 
 ----
 
 ## Democratization of Intelligence
 
-**Expert intelligence** has always been expensive: legal counsel, financial analysis, medical diagnosis.
+Expert intelligence was always expensive: lawyers, analysts, doctors.
 
-AI makes routine expert intelligence **cheap and universally accessible**. <!-- .element: class="fragment" -->
+AI makes it **cheap and universal**.
 
-Just as mass production made cars available to ordinary people. <!-- .element: class="fragment" -->
+Like mass production made cars available to everyone.
 
 ----
 
 ## The YouTube Model
 
-| TV (before) | YouTube (after) |
+| TV | YouTube |
 |---|---|
-| Centralized | Millions of creators |
-| Few networks controlled everything | on shared infrastructure |
+| Centralized, few networks | Millions of creators on shared infra |
 
-AI does the same for software: <!-- .element: class="fragment" -->
-- Healthcare admin → AI billing assistant <!-- .element: class="fragment" -->
-- Lawyer → AI contract reviewer <!-- .element: class="fragment" -->
-- Construction PM → AI project scheduling <!-- .element: class="fragment" -->
-
-Solo creators can't beat Salesforce on general CRM. But they serve niches **better**. <!-- .element: class="fragment" -->
+AI does this for software:
+- Healthcare admin → AI billing
+- Lawyer → AI contracts
+- Construction PM → AI scheduling
 
 ----
 
@@ -276,19 +211,14 @@ Solo creators can't beat Salesforce on general CRM. But they serve niches **bett
 
 ## Three Disruptions in Motion
 
-**A: IT Middle Market Collapse** <!-- .element: class="fragment" -->
+**A: IT Middle Market Collapse**
+90% of configuration shops become non-viable.
 
-90% of configuration shops become non-viable. Outsourcing dies.
+**B: Platform Disruption**
+Salesforce, SAP — the IBM mainframe moment.
 
-**B: Platform Disruption** <!-- .element: class="fragment" -->
-
-Salesforce, SAP, Oracle — the IBM mainframe moment.
-
-**C: The Open Source Wildcard** <!-- .element: class="fragment" -->
-
-Capable models on your phone. Intelligence becomes a commodity.
-
-Note: We don't know which comes first. Maybe all three at once.
+**C: Open Source Wildcard**
+Models on your phone. Intelligence as commodity.
 
 ----
 
@@ -296,9 +226,7 @@ Note: We don't know which comes first. Maybe all three at once.
 
 ## The direction is clear
 
-The current distribution of economic activity in software **will not survive** the decade intact.
-
-Note: Pause. Let it sink in.
+The current distribution of economic activity in software **will not survive** the decade.
 
 ----
 
@@ -306,11 +234,9 @@ Note: Pause. Let it sink in.
 
 ## The Window Is 2-5 Years
 
-The businesses that survived the electronics collapse were the ones that pivoted **before** the market collapsed, not after.
+The businesses that survived the electronics collapse pivoted **before** the market collapsed, not after.
 
-**Build, don't configure.** <!-- .element: class="fragment" -->
-
-Deep domain expertise is your moat. <!-- .element: class="fragment" -->
+**Build, don't configure.** Domain expertise is your moat.
 
 ----
 
@@ -325,14 +251,13 @@ Deep domain expertise is your moat. <!-- .element: class="fragment" -->
 </div></div>
 
 <script src="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/reveal.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/reveal.js@5/plugin/highlight/highlight.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/reveal.js@5/plugin/markdown/markdown.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/reveal.js@5/plugin/notes/notes.js"></script>
 <script>
   Reveal.initialize({
-    hash: true, history: true, controls: true, progress: true, center: true,
-    transition: 'slide', slideNumber: 'c/t',
-    plugins: [RevealHighlight, RevealMarkdown, RevealNotes]
+    hash: true, controls: true, progress: true, center: true,
+    transition: 'none', slideNumber: 'c/t',
+    plugins: [RevealMarkdown, RevealNotes]
   });
 </script>
 </body>
